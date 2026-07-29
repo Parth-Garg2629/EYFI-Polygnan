@@ -928,7 +928,7 @@ function updateCards(val) {
         fill = 100; left = val; right = nextN;
         bClass = 'badge-current'; bText = '👑 Legend';
       } else {
-        const raw = (val - tier.min) / (tier.next - tier.min) * 100;
+        const raw = (val / tier.next) * 100;
         fill  = Math.max(3, Math.round(clamp(raw, 0, 100)));
         left  = val; right = nextN;
         const need = tier.next - val;
@@ -946,12 +946,9 @@ function updateCards(val) {
       const isNext = i === ui + 1;
       rung.classList.add(isNext ? 'next-up' : 'locked');
 
-      let fill = 0, left = 0;
-      if (isNext) {
-        const prevMin = TIERS[i - 1]?.min ?? 0;
-        fill = Math.round(clamp((val - prevMin) / (tier.min - prevMin) * 100, 0, 97));
-        left = val;
-      }
+      const raw = (val / tier.min) * 100;
+      const fill = Math.round(clamp(raw, 0, 97));
+      const left = val;
 
       prog.style.width    = fill + '%';
       progLbl.textContent = `${left} / ${tier.min} regs to unlock`;
