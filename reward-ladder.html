@@ -959,8 +959,8 @@ function updateCountDisplay(val) {
   const numEl = document.getElementById('count-num');
   const tierEl= document.getElementById('count-tier');
   numEl.textContent = val;
-  if (ui < 0) { tierEl.textContent = 'Not yet selected'; tierEl.style.color = 'var(--muted)'; }
-  else { tierEl.textContent = TIERS[ui].label + ' ' + TIERS[ui].icon; tierEl.style.color = 'var(--orange)'; }
+  if (ui < 0) { tierEl.innerHTML = 'Not yet selected'; tierEl.style.color = 'var(--muted)'; }
+  else { tierEl.innerHTML = TIERS[ui].label + ' <span style="display:inline-flex;align-items:center;vertical-align:middle;transform:translateY(-2px);">' + TIERS[ui].icon + '</span>'; tierEl.style.color = 'var(--orange)'; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -969,7 +969,7 @@ function updateCountDisplay(val) {
 const toastEl = document.getElementById('toast');
 let toastTimer = null;
 function showToast(tier) {
-  document.getElementById('t-icon').textContent = tier.icon;
+  document.getElementById('t-icon').innerHTML = tier.icon;
   document.getElementById('t-name').textContent = tier.label;
   toastEl.classList.add('show');
   if (toastTimer) clearTimeout(toastTimer);
