@@ -1,867 +1,843 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EYFI Ambassador Reward Ladder</title>
-  <meta name="description" content="Unlock rewards as you bring more students into the EYFI Challenge. From Scout to Founding Team — your journey starts here." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EYFI Campus Ambassador — Reward Ladder</title>
+  <meta name="description" content="Unlock rewards as you bring more students into the EYFI Challenge. From Scout to Founding Team — your journey starts here."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Open+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
-    /* ═══════════════════════════════════════════════════════════════
-       BASE
-    ═══════════════════════════════════════════════════════════════ */
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#0A0A0A;
-      --surface:#111111;
-      --surface2:#161616;
-      --surface3:#1C1C1C;
-      --orange:#FF6B1A;
-      --lime:#DFF864;
-      --lime-dark:#A9D91A;
-      --text:#F5F5F0;
-      --muted:#7A7A72;
-      --border:#242424;
-      --border2:#303030;
-    }
-    html{scroll-behavior:smooth}
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:'Space Grotesk',system-ui,sans-serif;
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+/* ─────────────────────────────────────────────────────────────
+   DESIGN TOKENS  (exact values from ambassador.eyfichallenge.com)
+───────────────────────────────────────────────────────────────*/
+:root {
+  --bg:       #0A0A0A;
+  --surface:  #111111;
+  --border:   #2A2A2A;
+  --border2:  #232323;
+  --lime:     #C4F62E;   /* exact hex from ambassador site */
+  --orange:   #FF6B1A;
+  --yellow:   #E8B923;
+  --text:     #F0F0EC;
+  --muted:    #8A8A85;
+  --dim:      #c8c8c4;
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body:    'Space Grotesk', system-ui, sans-serif;
+  --font-nav:     'Open Sans', system-ui, sans-serif;
+  --font-serif:   'Instrument Serif', Georgia, serif;
+}
 
-    /* ═══════════════════════════════════════════════════════════════
-       TICKER
-    ═══════════════════════════════════════════════════════════════ */
-    .ticker{
-      background:var(--orange);
-      border-bottom:3px solid var(--bg);
-      overflow:hidden;white-space:nowrap;padding:10px 0;
-    }
-    .ticker-inner{
-      display:inline-block;
-      animation:marquee 30s linear infinite;
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    }
-    .ticker-inner span{margin:0 28px}
-    .ticker-inner .k{color:#0a0a0a}
-    .ticker-inner .w{color:#fff}
-    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* ─────────────────────────────────────────────────────────────
+   RESET
+───────────────────────────────────────────────────────────────*/
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-    /* ═══════════════════════════════════════════════════════════════
-       HEADER
-    ═══════════════════════════════════════════════════════════════ */
-    header{
-      position:sticky;top:0;z-index:60;
-      backdrop-filter:blur(16px);
-      background:rgba(10,10,10,.8);
-      border-bottom:1px solid var(--border);
-    }
-    .hinner{
-      max-width:1100px;margin:0 auto;padding:0 24px;
-      height:64px;display:flex;align-items:center;justify-content:space-between;
-    }
-    .logo{
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-size:22px;font-weight:800;letter-spacing:-.03em;
-      color:var(--lime);text-decoration:none;
-    }
-    .logo em{color:var(--orange);font-style:normal}
-    .nav-btn{
-      background:var(--orange);color:#fff;
-      border:none;cursor:pointer;
-      font-family:'Space Grotesk',sans-serif;
-      font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
-      padding:9px 22px;border-radius:999px;
-      text-decoration:none;transition:opacity .2s,transform .15s;
-      display:inline-flex;align-items:center;gap:6px;
-    }
-    .nav-btn:hover{opacity:.85;transform:scale(1.04)}
+/* ─────────────────────────────────────────────────────────────
+   TICKER
+───────────────────────────────────────────────────────────────*/
+.ticker {
+  background: var(--orange);
+  border-bottom: 3px solid var(--bg);
+  overflow: hidden; white-space: nowrap; padding: 10px 0;
+}
+.ticker-inner {
+  display: inline-block;
+  animation: marquee 28s linear infinite;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.ticker-inner span { margin: 0 28px; }
+.t-k { color: #0a0a0a; }
+.t-w { color: #fff; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* ═══════════════════════════════════════════════════════════════
-       HERO
-    ═══════════════════════════════════════════════════════════════ */
-    .hero{
-      text-align:center;padding:72px 24px 40px;
-      position:relative;overflow:hidden;
-    }
-    .hero::before{
-      content:'';position:absolute;inset:0;pointer-events:none;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% -10%,rgba(223,248,100,.09) 0%,transparent 65%),
-        radial-gradient(ellipse 50% 35% at 85% 70%,rgba(255,107,26,.07) 0%,transparent 55%),
-        radial-gradient(ellipse 40% 30% at 15% 80%,rgba(79,195,247,.05) 0%,transparent 55%);
-    }
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:8px;
-      background:rgba(223,248,100,.08);border:1px solid rgba(223,248,100,.3);
-      border-radius:999px;padding:5px 16px;
-      font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-      color:var(--lime);margin-bottom:22px;
-    }
-    .hero h1{
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-size:clamp(38px,7vw,74px);font-weight:800;
-      line-height:1.04;letter-spacing:-.03em;margin-bottom:18px;
-    }
-    .hero h1 .o{color:var(--orange)}
-    .hero h1 .l{color:var(--lime)}
-    .hero p{
-      font-size:17px;color:var(--muted);
-      max-width:500px;margin:0 auto 48px;line-height:1.65;
-    }
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────────*/
+header {
+  position: sticky; top: 0; z-index: 60;
+  backdrop-filter: blur(14px);
+  background: rgba(10,10,10,.8);
+  border-bottom: 1px solid var(--border);
+}
+.hinner {
+  max-width: 820px; margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 800;
+  letter-spacing: -.03em; color: var(--lime);
+  text-decoration: none;
+}
+.logo .dot { color: var(--orange); }
+.nav-links {
+  display: flex; align-items: center; gap: 24px;
+  font-family: var(--font-nav);
+  font-size: 14px; font-weight: 600;
+}
+.nav-links a {
+  color: rgba(240,240,236,.7);
+  text-decoration: none; transition: color .18s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--orange); color: #fff;
+  padding: 8px 20px; border-radius: 999px;
+  font-weight: 700; font-size: 13px;
+  letter-spacing: .04em; text-transform: uppercase;
+  text-decoration: none; transition: opacity .18s;
+}
+.nav-cta:hover { opacity: .85; color: #fff; }
 
-    /* ── Stats strip ─────────────────────────────────────────────── */
-    .stats-strip{
-      display:flex;justify-content:center;gap:32px;
-      flex-wrap:wrap;margin-bottom:48px;
-    }
-    .stat{text-align:center}
-    .stat-val{
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-size:32px;font-weight:800;letter-spacing:-.03em;
-      color:var(--lime);line-height:1;
-    }
-    .stat-val.orange-val{color:var(--orange)}
-    .stat-lbl{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+/* ─────────────────────────────────────────────────────────────
+   HERO STAGE  — full viewport width so coins can escape content max-width
+───────────────────────────────────────────────────────────────*/
+.hero-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;           /* clip on mobile so no x-scroll */
+}
+@media (min-width: 900px) {
+  .hero-stage { overflow: visible; } /* let coins bleed into margins on desktop */
+}
 
-    /* ═══════════════════════════════════════════════════════════════
-       MOCK DATA BANNER (simulates backend fetch)
-    ═══════════════════════════════════════════════════════════════ */
-    .data-banner{
-      max-width:700px;margin:0 auto 60px;padding:0 24px;
-    }
-    .db-card{
-      background:var(--surface);
-      border:1px solid var(--border2);
-      border-radius:16px;
-      padding:20px 28px;
-      display:flex;align-items:center;justify-content:space-between;
-      gap:16px;flex-wrap:wrap;
-    }
-    .db-left{display:flex;align-items:center;gap:14px}
-    .db-dot{
-      width:10px;height:10px;border-radius:50%;
-      background:var(--lime);
-      box-shadow:0 0 8px 3px rgba(223,248,100,.5);
-      animation:pulse-dot 2s ease-in-out infinite;
-      flex-shrink:0;
-    }
-    @keyframes pulse-dot{
-      0%,100%{box-shadow:0 0 8px 3px rgba(223,248,100,.5)}
-      50%{box-shadow:0 0 16px 6px rgba(223,248,100,.25)}
-    }
-    .db-info{display:flex;flex-direction:column;gap:2px}
-    .db-info .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
-    .db-info .name{font-size:14px;font-weight:600}
-    .db-right{display:flex;align-items:center;gap:10px}
-    .db-count-wrap{text-align:right}
-    .db-count{
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-size:42px;font-weight:800;line-height:1;color:var(--lime);letter-spacing:-.03em;
-    }
-    .db-count-lbl{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
-    .db-tag{
-      background:rgba(223,248,100,.12);border:1px solid rgba(223,248,100,.35);
-      border-radius:8px;padding:6px 12px;
-      font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-      color:var(--lime);white-space:nowrap;
-    }
+.hero-inner {
+  max-width: 820px; margin: 0 auto;
+  padding: 72px 24px 0;
+  text-align: center;
+  position: relative; z-index: 2; /* above coins */
+}
 
-    /* ═══════════════════════════════════════════════════════════════
-       SLIDER SECTION
-    ═══════════════════════════════════════════════════════════════ */
-    .slider-section{
-      max-width:860px;margin:0 auto;padding:0 24px 56px;
-    }
-    .slider-header{
-      display:flex;align-items:center;justify-content:space-between;
-      margin-bottom:24px;flex-wrap:wrap;gap:12px;
-    }
-    .slider-header .lbl{
-      font-size:12px;font-weight:700;letter-spacing:.1em;
-      text-transform:uppercase;color:var(--muted);
-    }
-    .slider-header .live{
-      display:flex;align-items:center;gap:8px;
-      font-size:13px;font-weight:600;color:var(--text);
-    }
-    .live-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);animation:pulse-dot 1.5s ease-in-out infinite}
+/* ─────────────────────────────────────────────────────────────
+   3-D COINS  — exact technique from ambassador.eyfichallenge.com
+   The JS buildCoins() function creates the full OKLCH-layered cylinder.
+───────────────────────────────────────────────────────────────*/
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.coin-wrap {
+  position: absolute;
+  user-select: none; pointer-events: none;
+  animation: float 3.5s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
 
-    /* Track wrapper */
-    .track-wrap{
-      position:relative;
-      padding:0 0 48px;   /* space for labels below */
-    }
+/* OKLCH edge layer (generated by JS) */
+.coin-edge {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid oklch(0.30 0.12 130);
+}
+/* Front/back faces */
+.coin-face {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #F4FFB8 0%, #DFF864 30%, #A9D91A 65%, #6E8E10 100%);
+  border: 1.5px solid #3f5208;
+  box-shadow: inset 0 -6px 12px rgba(0,0,0,.22), inset 0 4px 10px rgba(255,255,255,.35);
+  display: flex; align-items: center; justify-content: center;
+}
+.coin-face .ring {
+  position: absolute; border-radius: 50%;
+  border: 1px dashed rgba(30,45,5,.55);
+}
+.coin-face .sym {
+  font-family: var(--font-display); font-weight: 800;
+  color: #3a2506; line-height: 1; letter-spacing: -.02em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.4);
+  transform: translateY(-2%);
+}
 
-    /* milestone marker dots on the track */
-    .milestone-markers{
-      position:absolute;top:0;left:0;right:0;
-      height:28px;   /* same as slider thumb zone */
-      pointer-events:none;
-    }
+/* ─────────────────────────────────────────────────────────────
+   HERO HEADING  — exact style from ambassador.eyfichallenge.com
+───────────────────────────────────────────────────────────────*/
+.hero-inner h1 {
+  font-family: var(--font-display);
+  font-weight: 800; line-height: 1.02;
+  letter-spacing: -.025em; margin-bottom: 14px;
+}
+.h1-pre {
+  display: block;
+  font-size: clamp(1.75rem, 3.8vw, 2.5rem);
+  font-weight: 700; color: var(--dim);
+  margin-bottom: 34px;
+}
+.h1-big {
+  display: block;
+  font-size: clamp(2.6rem, 6.8vw, 4.4rem);
+}
+/* The EYFI word — rotated highlight matching the official site exactly */
+.eyfi-word {
+  color: var(--lime);
+  display: inline-block;
+  transform: rotate(-4deg);
+  font-weight: 900; letter-spacing: -.03em;
+}
+.campus-word {
+  color: var(--lime);
+  font-size: clamp(2.6rem, 6.8vw, 4.4rem);
+  font-weight: 800; letter-spacing: -.02em;
+}
+/* Italic serif quote — exact class from official site */
+.hero-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+  color: var(--yellow);
+  margin: 48px 0 22px; line-height: 1.1;
+}
+.hero-body {
+  font-size: 1.05rem; max-width: 540px;
+  margin: 0 auto 30px; line-height: 1.65; color: var(--dim);
+}
+.hero-cta {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 1rem; font-weight: 800;
+  color: #0A0A0A; background: var(--lime);
+  padding: 16px 40px; border-radius: 40px;
+  text-decoration: none; letter-spacing: .02em;
+  box-shadow: 0 4px 24px rgba(196,246,46,.18);
+  transition: opacity .18s, transform .15s;
+}
+.hero-cta:hover { opacity: .88; transform: scale(1.03); }
 
-    /* Custom slider */
-    input#main-slider{
-      -webkit-appearance:none;appearance:none;
-      width:100%;height:28px;
-      background:transparent;
-      cursor:pointer;outline:none;
-      position:relative;z-index:2;
-    }
-    /* track */
-    input#main-slider::-webkit-slider-runnable-track{
-      height:8px;border-radius:999px;
-      background:var(--border2);
-    }
-    input#main-slider::-moz-range-track{
-      height:8px;border-radius:999px;background:var(--border2);
-    }
-    /* thumb */
-    input#main-slider::-webkit-slider-thumb{
-      -webkit-appearance:none;appearance:none;
-      width:28px;height:28px;border-radius:50%;
-      background:var(--orange);
-      border:3px solid var(--bg);
-      box-shadow:0 0 0 2px var(--orange),0 0 20px 6px rgba(255,107,26,.4);
-      cursor:pointer;
-      transition:box-shadow .2s,transform .15s;
-      margin-top:-10px;
-    }
-    input#main-slider::-webkit-slider-thumb:hover{
-      transform:scale(1.2);
-      box-shadow:0 0 0 2px var(--orange),0 0 28px 10px rgba(255,107,26,.55);
-    }
-    input#main-slider::-moz-range-thumb{
-      width:28px;height:28px;border-radius:50%;
-      background:var(--orange);
-      border:3px solid var(--bg);
-      box-shadow:0 0 0 2px var(--orange),0 0 20px 6px rgba(255,107,26,.4);
-      cursor:pointer;
-    }
-    /* filled track (done via JS gradient on track) */
-    input#main-slider.at-milestone::-webkit-slider-thumb{
-      background:var(--lime);
-      box-shadow:0 0 0 2px var(--lime),0 0 28px 10px rgba(223,248,100,.6);
-    }
+/* Stats row — lifted from ambassador site HTML exactly */
+.stats-row {
+  display: flex;
+  margin-top: 44px;
+  border-top: 1px solid var(--border2);
+  padding-top: 28px;
+}
+.stat-cell { flex: 1; text-align: center; }
+.stat-cell:not(:last-child) { border-right: 1px solid var(--border2); }
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 1.75rem; font-weight: 800;
+  color: var(--yellow); letter-spacing: -.01em;
+  margin: 0 0 6px;
+}
+.stat-lbl { font-size: 14.5px; color: var(--muted); line-height: 1.4; }
 
-    /* Milestone dots below track */
-    .milestones-row{
-      display:flex;position:absolute;
-      left:0;right:0;top:0;
-      justify-content:space-between;
-      align-items:center;
-      height:28px;
-      pointer-events:none;
-      padding:0 2px; /* offset for thumb bleed */
-    }
-    .ms-dot-wrap{
-      display:flex;flex-direction:column;align-items:center;
-      gap:0;
-    }
-    .ms-dot{
-      width:14px;height:14px;border-radius:50%;
-      background:var(--border2);
-      border:2px solid var(--border2);
-      transition:all .3s;
-      position:relative;z-index:1;
-    }
-    .ms-dot.reached{
-      background:var(--lime);
-      border-color:var(--lime);
-      box-shadow:0 0 10px 3px rgba(223,248,100,.5);
-    }
-    .ms-dot.active-ms{
-      transform:scale(1.4);
-      background:var(--lime);
-      border-color:#fff;
-      box-shadow:0 0 18px 6px rgba(223,248,100,.7);
-    }
+/* ─────────────────────────────────────────────────────────────
+   SIMULATOR
+───────────────────────────────────────────────────────────────*/
+.sim-section {
+  max-width: 820px; margin: 64px auto 0;
+  padding: 0 24px;
+}
+.sim-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
+}
+.sim-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 800; letter-spacing: -.02em;
+}
+/* Backend status pill */
+.backend-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(196,246,46,.07);
+  border: 1px solid rgba(196,246,46,.22);
+  padding: 5px 13px; border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  color: var(--lime); letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--lime); box-shadow: 0 0 7px var(--lime);
+  animation: blink 1.8s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.7)} }
 
-    /* Labels below track */
-    .labels-row{
-      position:absolute;bottom:0;left:0;right:0;
-      display:flex;justify-content:space-between;
-      padding:0 2px;
-    }
-    .ms-label{
-      font-size:11px;font-weight:700;letter-spacing:.07em;
-      text-align:center;
-      color:var(--muted);
-      transition:color .3s;
-      min-width:40px;
-    }
-    .ms-label.reached{color:var(--lime)}
-    .ms-label.active-ms{color:var(--lime);text-shadow:0 0 8px rgba(223,248,100,.6)}
+.count-row {
+  display: flex; align-items: flex-end; gap: 16px;
+  margin-bottom: 20px;
+}
+.count-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800; letter-spacing: -.04em;
+  color: var(--lime); line-height: 1;
+}
+.count-meta { padding-bottom: 6px; }
+.count-unit {
+  font-size: 13px; color: var(--muted);
+  font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.count-tier {
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 800;
+  color: var(--orange); margin-top: 3px;
+}
 
-    /* ═══════════════════════════════════════════════════════════════
-       TIER CARDS GRID
-    ═══════════════════════════════════════════════════════════════ */
-    .cards-section{
-      max-width:1000px;margin:0 auto;padding:0 24px 100px;
-    }
-    .sec-title{
-      text-align:center;
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-size:clamp(26px,4vw,38px);font-weight:800;
-      letter-spacing:-.025em;margin-bottom:8px;
-    }
-    .sec-sub{
-      text-align:center;color:var(--muted);
-      font-size:14px;margin-bottom:48px;
-    }
+/* Slider */
+.slider-wrap { position: relative; padding-bottom: 36px; }
 
-    .tier-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-      gap:16px;
-    }
+input[type=range]#sim-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 5px; border-radius: 999px;
+  background: var(--border); cursor: pointer; outline: none;
+}
+input[type=range]#sim-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--lime); border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--lime);
+  cursor: pointer; transition: transform .12s;
+}
+input[type=range]#sim-slider::-webkit-slider-thumb:hover { transform: scale(1.18); }
+input[type=range]#sim-slider::-moz-range-thumb {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--lime); border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--lime); cursor: pointer;
+}
 
-    /* Individual tier card */
-    .tier-card{
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:0;
-      overflow:hidden;
-      position:relative;
-      transition:transform .35s cubic-bezier(.34,1.56,.64,1),
-                  border-color .35s,box-shadow .35s,opacity .35s;
-      cursor:default;
-    }
-    /* LOCKED */
-    .tier-card.locked{
-      opacity:.42;
-      filter:grayscale(60%);
-    }
-    .tier-card.locked::after{
-      content:'🔒';
-      position:absolute;top:16px;right:16px;
-      font-size:18px;opacity:.6;
-    }
-    /* UNLOCKED (not current) */
-    .tier-card.unlocked{
-      border-color:rgba(223,248,100,.2);
-    }
-    /* CURRENT (highest unlocked) */
-    .tier-card.current{
-      border-color:var(--tc-accent,var(--lime));
-      box-shadow:0 0 0 1px var(--tc-accent,var(--lime)),
-                 0 12px 50px -10px var(--tc-glow,rgba(223,248,100,.35));
-      transform:translateY(-4px) scale(1.01);
-    }
-    .tier-card.current .card-header::after{
-      content:'YOUR TIER';
-      position:absolute;top:14px;right:14px;
-      font-size:9px;font-weight:800;letter-spacing:.15em;
-      background:var(--tc-accent,var(--lime));
-      color:#0a0a0a;
-      padding:3px 9px;border-radius:999px;
-    }
-    /* Next milestone hint */
-    .tier-card.next-up{
-      border-color:rgba(255,107,26,.3);
-      opacity:.7;
-    }
-    .tier-card.next-up::after{
-      content:'NEXT UP ↑';
-      position:absolute;top:14px;right:14px;
-      font-size:9px;font-weight:800;letter-spacing:.12em;
-      background:rgba(255,107,26,.2);color:var(--orange);
-      border:1px solid rgba(255,107,26,.4);
-      padding:3px 9px;border-radius:999px;
-    }
+.ms-row {
+  position: absolute; top: -10px; left: 0; right: 0;
+  pointer-events: none;
+}
+.ms-dot {
+  position: absolute;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--border); border: 2px solid #3a3a3a;
+  top: 50%; transform: translate(-50%, -50%);
+  transition: background .25s, border-color .25s, box-shadow .25s;
+}
+.ms-dot.hit     { background: var(--lime); border-color: var(--lime); box-shadow: 0 0 8px 2px rgba(196,246,46,.45); }
+.ms-dot.current { background: var(--lime); border-color: #fff; box-shadow: 0 0 14px 4px rgba(196,246,46,.6); transform: translate(-50%,-50%) scale(1.3); }
 
-    /* Card header band */
-    .card-header{
-      position:relative;
-      padding:22px 22px 18px;
-      background:var(--tc-bg,rgba(223,248,100,.04));
-      border-bottom:1px solid var(--border);
-    }
-    .card-icon-row{
-      display:flex;align-items:center;gap:12px;margin-bottom:10px;
-    }
-    .card-icon-circle{
-      width:52px;height:52px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      font-size:26px;
-      background:var(--tc-bg2,rgba(223,248,100,.1));
-      border:1.5px solid var(--tc-accent,rgba(223,248,100,.3));
-      flex-shrink:0;
-    }
-    .tier-card.current .card-icon-circle{
-      box-shadow:0 0 20px 4px var(--tc-glow,rgba(223,248,100,.4));
-      animation:icon-pulse 2.5s ease-in-out infinite;
-    }
-    @keyframes icon-pulse{
-      0%,100%{box-shadow:0 0 20px 4px var(--tc-glow,rgba(223,248,100,.4))}
-      50%{box-shadow:0 0 32px 10px var(--tc-glow,rgba(223,248,100,.2))}
-    }
-    .card-tier-meta{flex:1}
-    .card-tier-num{
-      font-size:11px;font-weight:700;letter-spacing:.12em;
-      text-transform:uppercase;color:var(--tc-accent,var(--lime));margin-bottom:2px;
-    }
-    .card-tier-name{
-      font-family:'Bricolage Grotesque',sans-serif;
-      font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;
-    }
+.ms-labels { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none; }
+.ms-lbl {
+  position: absolute; bottom: 0; transform: translateX(-50%);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .07em; color: var(--muted);
+  text-transform: uppercase; transition: color .25s; white-space: nowrap;
+}
+.ms-lbl.hit     { color: rgba(196,246,46,.7); }
+.ms-lbl.current { color: var(--lime); }
 
-    /* Progress mini-bar inside each card */
-    .card-progress{
-      height:4px;background:var(--border2);border-radius:999px;
-      margin-top:12px;overflow:hidden;
-    }
-    .card-progress-fill{
-      height:100%;border-radius:999px;
-      background:linear-gradient(90deg,var(--tc-accent,var(--lime-dark)),var(--tc-accent,var(--lime)));
-      transition:width .5s cubic-bezier(.34,1.56,.64,1);
-    }
-    .card-progress-lbl{
-      font-size:10px;color:var(--muted);margin-top:5px;
-      display:flex;justify-content:space-between;
-    }
+/* ─────────────────────────────────────────────────────────────
+   REWARD LADDER
+───────────────────────────────────────────────────────────────*/
+.ladder-section {
+  max-width: 820px; margin: 64px auto 0;
+  padding: 0 24px 100px;
+}
+.ladder-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800; letter-spacing: -.02em;
+  margin-bottom: 8px;
+}
+.ladder-heading .serif-it {
+  font-family: var(--font-serif);
+  font-style: italic; color: var(--lime);
+}
+.ladder-sub {
+  font-size: 15px; color: var(--muted);
+  margin-bottom: 52px; line-height: 1.5;
+}
 
-    /* Perks body */
-    .card-body{padding:18px 22px 20px}
-    .perks-list{display:flex;flex-direction:column;gap:10px}
-    .perk-row{
-      display:flex;align-items:center;gap:10px;
-    }
-    .perk-check{
-      width:26px;height:26px;border-radius:8px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:14px;flex-shrink:0;
-      background:var(--tc-bg2,rgba(223,248,100,.08));
-      border:1px solid var(--tc-accent-dim,rgba(223,248,100,.2));
-      transition:background .3s,border-color .3s;
-    }
-    .tier-card.unlocked .perk-check,
-    .tier-card.current .perk-check{
-      background:var(--tc-bg2,rgba(223,248,100,.12));
-    }
-    .perk-text{font-size:13px;font-weight:500;line-height:1.4}
-    .perk-sub{font-size:11px;color:var(--muted);line-height:1.3;margin-top:1px}
+.ladder { position: relative; }
+.ladder::before {
+  content: '';
+  position: absolute; left: 22px; top: 24px; bottom: 24px;
+  width: 1px; background: var(--border2);
+}
+.ladder-line-fill {
+  position: absolute; left: 22px; top: 24px;
+  width: 1px; background: var(--lime);
+  opacity: .45; transition: height .45s ease;
+  pointer-events: none;
+}
 
-    /* Cumulative chip */
-    .cum-chip{
-      margin:14px 22px 0;
-      padding:8px 14px;
-      background:rgba(255,255,255,.03);
-      border:1px dashed var(--border2);
-      border-radius:10px;
-      font-size:11px;color:var(--muted);
-      display:flex;gap:6px;align-items:flex-start;
-    }
-    .cum-chip .cum-icon{flex-shrink:0;margin-top:1px}
+/* Single rung */
+.rung {
+  display: flex; gap: 20px; align-items: flex-start;
+  margin-bottom: 12px; position: relative;
+  opacity: 0; transform: translateY(20px);
+}
+.rung.in {
+  opacity: 1; transform: translateY(0);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.rung.in.locked  { opacity: 1; }
+.rung.in.locked .node, .rung.in.locked .rung-card { opacity: .4; }
 
-    /* Card footer CTA */
-    .card-footer{
-      padding:12px 22px 18px;
-      border-top:1px solid var(--border);
-    }
-    .card-cta{
-      width:100%;
-      background:var(--tc-accent,var(--lime));
-      color:#0a0a0a;
-      border:none;cursor:pointer;
-      font-family:'Space Grotesk',sans-serif;
-      font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;
-      padding:10px 0;border-radius:10px;
-      transition:opacity .2s,transform .15s;
-      display:flex;align-items:center;justify-content:center;gap:6px;
-    }
-    .card-cta:hover{opacity:.85;transform:scale(1.02)}
-    .card-cta:disabled{opacity:.3;cursor:not-allowed;transform:none}
-    .tier-card.locked .card-cta{
-      background:var(--border2);color:var(--muted);
-    }
+/* Node circle */
+.node {
+  flex-shrink: 0;
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; position: relative; z-index: 2;
+  transition: border-color .3s, box-shadow .3s, transform .3s;
+}
+.rung.unlocked .node, .rung.current .node {
+  border-color: var(--lime); box-shadow: 0 0 0 3px rgba(196,246,46,.15);
+}
+.rung.current .node {
+  box-shadow: 0 0 0 3px rgba(196,246,46,.25), 0 0 16px rgba(196,246,46,.3);
+  transform: scale(1.08);
+}
+.rung.locked .node { opacity: .35; filter: grayscale(1); }
 
-    /* ── Tier color tokens ───────────────────────────────────────── */
-    /* Applied via inline style on each card */
+/* Rung card */
+.rung-card {
+  flex: 1; border: 1px solid var(--border); border-radius: 14px;
+  background: linear-gradient(155deg, #181818, #111111);
+  overflow: hidden; margin-bottom: 16px;
+  transition: border-color .3s, box-shadow .3s;
+}
+.rung.locked   .rung-card { opacity: .4; }
+.rung.unlocked .rung-card { border-color: rgba(196,246,46,.18); }
+.rung.current  .rung-card {
+  border-color: var(--lime);
+  box-shadow: 0 0 0 1px rgba(196,246,46,.3), 0 8px 32px -8px rgba(196,246,46,.2);
+}
+.rung.next-up  .rung-card { border-color: rgba(255,107,26,.25); border-style: dashed; }
 
-    /* ═══════════════════════════════════════════════════════════════
-       CONFETTI & TOAST
-    ═══════════════════════════════════════════════════════════════ */
-    #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
-    #toast{
-      position:fixed;bottom:28px;left:50%;
-      transform:translateX(-50%) translateY(90px);
-      background:var(--surface);
-      border:1px solid var(--lime);
-      border-radius:14px;padding:14px 22px;
-      display:flex;align-items:center;gap:14px;
-      font-weight:600;font-size:15px;
-      box-shadow:0 0 0 1px var(--lime),0 16px 60px rgba(0,0,0,.6);
-      transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .4s;
-      opacity:0;z-index:1000;min-width:280px;
-    }
-    #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-    #toast .t-emoji{font-size:28px}
-    #toast .t-body .t-sub{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--lime);margin-bottom:2px;font-weight:700}
-    #toast .t-body .t-main{font-size:16px;font-weight:800;font-family:'Bricolage Grotesque',sans-serif}
+.card-head {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border2);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+}
+.card-milestone {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--lime); margin-bottom: 4px;
+}
+.rung.locked   .card-milestone { color: var(--muted); }
+.rung.next-up  .card-milestone { color: var(--orange); }
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 800;
+  letter-spacing: -.02em; line-height: 1.15;
+}
+.card-badge {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+}
+.badge-done    { background:rgba(196,246,46,.12); color:var(--lime);   border:1px solid rgba(196,246,46,.3); }
+.badge-current { background:var(--lime);           color:#0a0a0a;        border:1px solid var(--lime); }
+.badge-next    { background:rgba(255,107,26,.1);  color:var(--orange);  border:1px solid rgba(255,107,26,.3); }
+.badge-locked  { background:rgba(255,255,255,.04); color:var(--muted);   border:1px solid var(--border); }
 
-    /* ═══════════════════════════════════════════════════════════════
-       FOOTER
-    ═══════════════════════════════════════════════════════════════ */
-    footer{
-      text-align:center;
-      padding:40px 24px;
-      border-top:1px solid var(--border);
-      color:var(--muted);font-size:13px;
-    }
-    footer a{color:var(--orange);text-decoration:none}
+.card-perks { padding: 14px 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.perk { display: flex; align-items: flex-start; gap: 10px; }
+.perk-mark { color:var(--lime); font-size:12px; font-weight:800; margin-top:2px; flex-shrink:0; }
+.rung.locked  .perk-mark { color: var(--muted); }
+.rung.next-up .perk-mark { color: var(--orange); }
+.perk-name { font-size: 14px; font-weight: 600; }
+.perk-sub  { font-size: 12px; color: var(--muted); margin-top: 1px; line-height: 1.35; }
 
-    /* ═══════════════════════════════════════════════════════════════
-       SCROLL-IN ANIMATION
-    ═══════════════════════════════════════════════════════════════ */
-    .tier-card{opacity:0;transform:translateY(28px)}
-    .tier-card.in-view{opacity:1;transform:translateY(0);transition-property:opacity,transform}
-    /* override locked/unlocked/current on top of in-view */
-    .tier-card.in-view.locked{opacity:.42;transform:translateY(0)}
-    .tier-card.in-view.current{transform:translateY(-4px) scale(1.01)}
+.card-cumul {
+  padding: 10px 20px 0;
+  font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.card-cumul::before { content: '↑'; color: rgba(196,246,46,.4); font-weight: 700; }
 
-    @media(max-width:600px){
-      .tier-grid{grid-template-columns:1fr}
-      .db-card{flex-direction:column;text-align:center}
-      .db-left{flex-direction:column;align-items:center;text-align:center}
-      .db-right{flex-direction:column;align-items:center}
-    }
+.card-prog { padding: 14px 20px 16px; margin-top: 14px; }
+.prog-track {
+  height: 3px; background: var(--border);
+  border-radius: 999px; overflow: hidden;
+}
+.prog-fill {
+  height: 100%; border-radius: 999px; background: var(--lime);
+  transition: width .45s cubic-bezier(.34,1.56,.64,1);
+}
+.rung.next-up .prog-fill { background: var(--orange); }
+.rung.locked  .prog-fill { background: var(--border2); }
+.prog-meta {
+  display: flex; justify-content: space-between;
+  margin-top: 6px; font-size: 11px; color: var(--muted); font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TOAST + CONFETTI
+───────────────────────────────────────────────────────────────*/
+#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+
+#toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--surface); border: 1px solid var(--lime);
+  border-radius: 12px; padding: 13px 22px;
+  display: flex; align-items: center; gap: 13px;
+  box-shadow: 0 0 0 1px rgba(196,246,46,.3), 0 16px 48px rgba(0,0,0,.65);
+  transition: transform .42s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+  opacity: 0; z-index: 999; min-width: 260px;
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast-icon { font-size: 26px; flex-shrink: 0; }
+.toast-sub  { font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--lime); font-weight:700; margin-bottom:2px; }
+.toast-name { font-family:var(--font-display); font-size:16px; font-weight:800; letter-spacing:-.01em; }
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────────────*/
+footer {
+  border-top: 1px solid var(--border2); padding: 32px 24px;
+  text-align: center; color: var(--muted); font-size: 13px;
+}
+footer a { color: var(--orange); text-decoration: none; }
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────────────────*/
+@media (max-width: 560px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .card-title { font-size: 1.1rem; }
+  .count-num  { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .hero-cta   { padding: 14px 32px; }
+}
   </style>
 </head>
 <body>
 
-<!-- TICKER -->
-<div class="ticker">
+<!-- TICKER ─────────────────────────────────────────────────── -->
+<div class="ticker" aria-hidden="true">
   <div class="ticker-inner">
-    <span class="k">✦ Campus Ambassador · Wave 01</span>
-    <span class="w">✦ Limited Spots Per College</span>
-    <span class="k">✦ Paid Internships Up For Grabs</span>
-    <span class="w">✦ Founding Team Consideration</span>
-    <span class="k">✦ Earn While You Spread EYFI</span>
-    <span class="w">✦ 200 Registrations = Legend Status</span>
-    <!-- duplicate for loop -->
-    <span class="k">✦ Campus Ambassador · Wave 01</span>
-    <span class="w">✦ Limited Spots Per College</span>
-    <span class="k">✦ Paid Internships Up For Grabs</span>
-    <span class="w">✦ Founding Team Consideration</span>
-    <span class="k">✦ Earn While You Spread EYFI</span>
-    <span class="w">✦ 200 Registrations = Legend Status</span>
+    <span class="t-k">✦ Wave 01 Scouts</span>
+    <span class="t-w">✦ Applications Open</span>
+    <span class="t-k">✦ Build EYFI on your Campus</span>
+    <span class="t-w">✦ Limited Spots per College</span>
+    <span class="t-k">✦ Paid Internships Available</span>
+    <span class="t-w">✦ Founding Team Consideration</span>
+    <span class="t-k">✦ Wave 01 Scouts</span>
+    <span class="t-w">✦ Applications Open</span>
+    <span class="t-k">✦ Build EYFI on your Campus</span>
+    <span class="t-w">✦ Limited Spots per College</span>
+    <span class="t-k">✦ Paid Internships Available</span>
+    <span class="t-w">✦ Founding Team Consideration</span>
   </div>
 </div>
 
-<!-- HEADER -->
+<!-- HEADER ─────────────────────────────────────────────────── -->
 <header>
   <div class="hinner">
-    <a class="logo" href="https://eyfichallenge.com">EYFI<em>✦</em></a>
-    <a class="nav-btn" href="https://ambassador.eyfichallenge.com/#apply" target="_blank">Apply Now →</a>
+    <a class="logo" href="https://ambassador.eyfichallenge.com">EYFI<span class="dot">✦</span></a>
+    <nav class="nav-links">
+      <a href="https://ambassador.eyfichallenge.com/how-it-works">How it works</a>
+      <a href="https://ambassador.eyfichallenge.com/faq">FAQs</a>
+      <a href="https://ambassador.eyfichallenge.com/#apply" class="nav-cta">Apply Now</a>
+    </nav>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="eyebrow">🏆 Reward Ladder · Campus Ambassador Program</div>
-  <h1>Spread <span class="o">EYFI.</span><br>Unlock <span class="l">Everything.</span></h1>
-  <p>Every student you bring to the EYFI Challenge moves you up the ladder — unlocking real rewards, real opportunities, and a shot at the founding team.</p>
+<!-- HERO STAGE — full-width wrapper, coins absolutely positioned inside ── -->
+<section class="hero-stage">
 
-  <div class="stats-strip">
-    <div class="stat">
-      <div class="stat-val" id="stat-scouts">847</div>
-      <div class="stat-lbl">Active Scouts</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val orange-val" id="stat-regs">12,400+</div>
-      <div class="stat-lbl">Total Registrations</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">30</div>
-      <div class="stat-lbl">Days to Earn</div>
+  <!--
+    6 floating 3-D coins.
+    JS reads data-size, data-rx/ry/rz, data-delay and constructs the full
+    OKLCH-layered cylinder exactly as ambassador.eyfichallenge.com does it.
+    Position attributes use vw units so they spread past the 820px content area.
+  -->
+  <div class="coin-wrap" data-size="88"  data-rx="64"  data-ry="42"  data-rz="-28" data-delay="0"   style="top:60px; left:2vw;   opacity:.5"></div>
+  <div class="coin-wrap" data-size="120" data-rx="-62" data-ry="38"  data-rz="18"  data-delay="0.5" style="bottom:60px; right:4vw; opacity:.5"></div>
+  <div class="coin-wrap" data-size="60"  data-rx="-74" data-ry="28"  data-rz="22"  data-delay="2.5" style="top:58%; left:6vw;   opacity:.5"></div>
+  <div class="coin-wrap" data-size="70"  data-rx="-16" data-ry="-32" data-rz="20"  data-delay="1.8" style="top:65%; right:8vw;  opacity:.5"></div>
+  <div class="coin-wrap" data-size="54"  data-rx="80"  data-ry="-40" data-rz="-36" data-delay="3.0" style="top:20%; left:10vw;  opacity:.5"></div>
+  <div class="coin-wrap" data-size="58"  data-rx="40"  data-ry="-24" data-rz="12"  data-delay="2.2" style="top:25%; right:12vw; opacity:.5"></div>
+
+  <!-- HERO CONTENT (centered, z-index 2 to sit above coins) -->
+  <div class="hero-inner">
+    <h1>
+      <span class="h1-pre">Someone is going to</span>
+      <span class="h1-big">
+        build <span class="eyfi-word">EYFI</span>
+      </span>
+      <span style="display:block;font-size:clamp(1.6rem,3.6vw,2.4rem);font-weight:700;color:var(--dim);margin-top:6px;">
+        on your <span class="campus-word">campus.</span>
+      </span>
+    </h1>
+
+    <p class="hero-quote">Why shouldn't it be you?</p>
+
+    <p class="hero-body">
+      Be the first at your college to unlock real rewards, a paid internship, and a shot at the Founding Team — just by rallying your batchmates to earn their first income.
+    </p>
+
+    <a href="https://ambassador.eyfichallenge.com/#apply" target="_blank" class="hero-cta">Apply as Campus Scout →</a>
+
+    <!-- Stats row — same structure as ambassador.eyfichallenge.com -->
+    <div class="stats-row">
+      <div class="stat-cell">
+        <p class="stat-val">WAVE 01</p>
+        <p class="stat-lbl">First-ever cohort</p>
+      </div>
+      <div class="stat-cell">
+        <p class="stat-val">1 or 2</p>
+        <p class="stat-lbl">Ambassador spots per college</p>
+      </div>
+      <div class="stat-cell">
+        <p class="stat-val">25 regs</p>
+        <p class="stat-lbl">To unlock the title</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- MOCK DATA BANNER (simulates a backend fetch) -->
-<div class="data-banner">
-  <div class="db-card">
-    <div class="db-left">
-      <div class="db-dot" title="Live data synced"></div>
-      <div class="db-info">
-        <span class="label">📡 Synced from backend · Ambassador Dashboard</span>
-        <span class="name" id="db-name">Parth's Campus Progress</span>
-      </div>
+<!-- SIMULATOR ───────────────────────────────────────────────── -->
+<div class="sim-section">
+  <div class="sim-header">
+    <span class="sim-title">Your reward ladder</span>
+    <!--
+      DEVELOPER NOTE:
+      This badge indicates simulated DB sync.
+      When wiring to a real backend, replace MOCK_COUNT
+      in the JS with a fetch call (see comment at bottom of script).
+      The badge text can be updated to "Live · Synced" once connected.
+    -->
+    <div class="backend-pill" title="Simulated — replace with real API">
+      <span class="pulse"></span> DB Sync Simulated
     </div>
-    <div class="db-right">
-      <div class="db-count-wrap">
-        <div class="db-count" id="db-count">37</div>
-        <div class="db-count-lbl">Registrations</div>
-      </div>
-      <div class="db-tag" id="db-tier-tag">Campus Ambassador 🚀</div>
+  </div>
+
+  <div class="count-row">
+    <div>
+      <div class="count-num" id="count-num">0</div>
+      <div class="count-unit">registrations</div>
     </div>
+    <div class="count-meta">
+      <div class="count-tier" id="count-tier"></div>
+    </div>
+  </div>
+
+  <div class="slider-wrap">
+    <div class="ms-row"    id="ms-row"></div>
+    <input type="range" id="sim-slider" min="0" max="210" step="1" value="0"/>
+    <div class="ms-labels" id="ms-labels"></div>
   </div>
 </div>
 
-<!-- SLIDER SECTION -->
-<div class="slider-section">
-  <div class="slider-header">
-    <span class="lbl">✦ Simulate registrations — drag to explore your rewards</span>
-    <span class="live"><span class="live-dot"></span> <span id="live-count">37</span> registrations</span>
-  </div>
-
-  <div class="track-wrap">
-    <input type="range" id="main-slider" min="0" max="210" step="1" value="37" />
-    <!-- milestone dots overlaid on the track -->
-    <div class="milestones-row" id="ms-row">
-      <!-- populated by JS -->
-    </div>
-    <div class="labels-row" id="labels-row">
-      <!-- populated by JS -->
-    </div>
-  </div>
-</div>
-
-<!-- TIER CARDS -->
-<section class="cards-section">
-  <h2 class="sec-title">Your <span style="color:var(--lime)">Reward Ladder</span></h2>
-  <p class="sec-sub">Every milestone unlocks real, tangible rewards — stacking as you climb higher.</p>
-
-  <div class="tier-grid" id="tier-grid">
-    <!-- Cards injected by JS -->
+<!-- REWARD LADDER ───────────────────────────────────────────── -->
+<section class="ladder-section">
+  <h2 class="ladder-heading">Milestones &amp; <span class="serif-it">rewards.</span></h2>
+  <p class="ladder-sub">Every tier stacks on the one before. Hit 200 and you're not just an ambassador — you're a founder.</p>
+  <div class="ladder" id="ladder">
+    <div class="ladder-line-fill" id="line-fill"></div>
   </div>
 </section>
 
 <footer>
-  Built for <a href="https://eyfichallenge.com" target="_blank">EYFI Challenge</a> &mdash;
-  Campus Ambassador Program · Wave 01 &middot; by <a href="https://ambassador.eyfichallenge.com" target="_blank">Polygnan</a>
+  Part of the <a href="https://eyfichallenge.com" target="_blank">EYFI Challenge</a> ·
+  Campus Ambassador Program · Wave 01 · by <a href="https://ambassador.eyfichallenge.com" target="_blank">Polygnan</a>
 </footer>
 
 <canvas id="confetti-canvas"></canvas>
-
 <div id="toast">
-  <div class="t-emoji" id="t-emoji">🎉</div>
-  <div class="t-body">
-    <div class="t-sub">Tier Unlocked!</div>
-    <div class="t-main" id="t-main">Campus Ambassador</div>
+  <div class="toast-icon" id="t-icon">🎉</div>
+  <div>
+    <div class="toast-sub">Tier Unlocked</div>
+    <div class="toast-name" id="t-name">Campus Ambassador</div>
   </div>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────
+   TIER DATA
+───────────────────────────────────────────────────────────────*/
 const TIERS = [
   {
-    id: 't0',
-    min: 1, next: 25,
-    label: 'Selected as Scout',
-    icon: '🔭',
-    milestone: 'Entry — You\'re Selected',
-    accent: '#DFF864', accentDim: 'rgba(223,248,100,.18)', glow: 'rgba(223,248,100,.4)',
-    bg: 'rgba(223,248,100,.04)', bg2: 'rgba(223,248,100,.1)',
-    perks: [
-      { icon: '💬', text: 'Private Community Access', sub: 'Exclusive scout-only group' },
-      { icon: '🎒', text: 'Starter Kit',              sub: 'Resources, templates & branding assets' },
-    ],
-    cumulative: null,
-    cta: 'You\'re a Scout! Keep pushing ✦',
+    id:'t0', min:1,   next:25,
+    icon:'🔭', milestone:'Entry — Selected as Scout', label:'Scout',
+    perks:[
+      {name:'Private Community Access', sub:'Exclusive scout-only group & resources'},
+      {name:'Starter Kit',              sub:'Templates, branding pack & playbook'},
+    ], cumul: null,
   },
   {
-    id: 't1',
-    min: 25, next: 50,
-    label: 'Campus Ambassador',
-    icon: '🚀',
-    milestone: '25 Registrations',
-    accent: '#4FC3F7', accentDim: 'rgba(79,195,247,.18)', glow: 'rgba(79,195,247,.4)',
-    bg: 'rgba(79,195,247,.04)', bg2: 'rgba(79,195,247,.1)',
-    perks: [
-      { icon: '🏅', text: 'Official Title',           sub: 'Verified Campus Ambassador badge' },
-      { icon: '👕', text: 'First Swag Drop',          sub: 'EYFI branded tee + merch' },
-      { icon: '🏆', text: 'Prize-Linked Challenge',   sub: 'Compete for exclusive prizes' },
-    ],
-    cumulative: '+ All Scout rewards',
-    cta: 'Unlock at 25 registrations →',
+    id:'t1', min:25,  next:50,
+    icon:'🚀', milestone:'25 Registrations', label:'Campus Ambassador',
+    perks:[
+      {name:'Official Ambassador Title', sub:'Verified badge for your campus profile'},
+      {name:'First Swag Drop',           sub:'EYFI branded tee + merch pack'},
+      {name:'Prize-Linked Challenge',    sub:'Compete for exclusive cash prizes'},
+    ], cumul:'Includes all Scout rewards',
   },
   {
-    id: 't2',
-    min: 50, next: 75,
-    label: 'Campus Leader',
-    icon: '🔥',
-    milestone: '50+ Registrations',
-    accent: '#FF6B1A', accentDim: 'rgba(255,107,26,.18)', glow: 'rgba(255,107,26,.4)',
-    bg: 'rgba(255,107,26,.04)', bg2: 'rgba(255,107,26,.1)',
-    perks: [
-      { icon: '🎟️', text: 'Event Grants',              sub: 'Funding to run events on your campus' },
-      { icon: '👟', text: 'Exclusive Merch Drop',      sub: 'Limited-edition Campus Leader gear' },
-    ],
-    cumulative: '+ All previous rewards',
-    cta: 'Unlock at 50 registrations →',
+    id:'t2', min:50,  next:75,
+    icon:'🔥', milestone:'50+ Registrations', label:'Campus Leader',
+    perks:[
+      {name:'Event Grants',    sub:'Funding to run EYFI events on campus'},
+      {name:'Exclusive Merch', sub:'Limited-edition Campus Leader drop'},
+    ], cumul:'Includes all previous rewards',
   },
   {
-    id: 't3',
-    min: 75, next: 100,
-    label: 'Regional Star',
-    icon: '⚡',
-    milestone: '75+ Registrations',
-    accent: '#CE93D8', accentDim: 'rgba(206,147,216,.18)', glow: 'rgba(206,147,216,.4)',
-    bg: 'rgba(206,147,216,.04)', bg2: 'rgba(206,147,216,.1)',
-    perks: [
-      { icon: '🧠', text: 'Mentorship Access',         sub: 'Direct sessions with Polygnan team' },
-      { icon: '🏛️', text: 'Campus Event Grants',       sub: 'Larger grants for college-wide events' },
-    ],
-    cumulative: '+ All previous rewards',
-    cta: 'Unlock at 75 registrations →',
+    id:'t3', min:75,  next:100,
+    icon:'⚡', milestone:'75+ Registrations', label:'Regional Star',
+    perks:[
+      {name:'Mentorship Access',   sub:'Direct sessions with the Polygnan team'},
+      {name:'Campus Event Grants', sub:'Larger grants for college-wide events'},
+    ], cumul:'Includes all previous rewards',
   },
   {
-    id: 't4',
-    min: 100, next: 200,
-    label: 'Top Ambassador',
-    icon: '💼',
-    milestone: '100+ Registrations',
-    accent: '#FF8A80', accentDim: 'rgba(255,138,128,.18)', glow: 'rgba(255,138,128,.4)',
-    bg: 'rgba(255,138,128,.04)', bg2: 'rgba(255,138,128,.1)',
-    perks: [
-      { icon: '💰', text: 'Paid Internship',            sub: 'Real compensation for your work' },
-      { icon: '🎤', text: 'Ambassador Events',          sub: 'Invite to exclusive Polygnan events' },
-    ],
-    cumulative: '+ All previous rewards',
-    cta: 'Unlock at 100 registrations →',
+    id:'t4', min:100, next:200,
+    icon:'💼', milestone:'100+ Registrations', label:'Top Ambassador',
+    perks:[
+      {name:'Paid Internship',   sub:'Real compensation for your work'},
+      {name:'Ambassador Events', sub:'Invite-only Polygnan events & workshops'},
+    ], cumul:'Includes all previous rewards',
   },
   {
-    id: 't5',
-    min: 200, next: Infinity,
-    label: 'Founding Team',
-    icon: '👑',
-    milestone: '200+ Registrations',
-    accent: '#FFD700', accentDim: 'rgba(255,215,0,.18)', glow: 'rgba(255,215,0,.45)',
-    bg: 'rgba(255,215,0,.04)', bg2: 'rgba(255,215,0,.1)',
-    perks: [
-      { icon: '🏗️', text: 'Founding Team Consideration',sub: 'Shape EYFI from the core' },
-      { icon: '🌐', text: 'Core Polygnan Network',      sub: 'Permanent access to inner circle' },
-      { icon: '🦁', text: 'Legend Status',              sub: 'Your name on the EYFI wall of fame' },
-    ],
-    cumulative: '+ All previous rewards',
-    cta: '🌟 The Ultimate Tier',
+    id:'t5', min:200, next:Infinity,
+    icon:'👑', milestone:'200+ Registrations', label:'Founding Team',
+    perks:[
+      {name:'Founding Team Consideration', sub:'Shape EYFI from the core'},
+      {name:'Core Polygnan Network',       sub:'Permanent inner-circle access'},
+      {name:'Legend Status',               sub:'Your name on the EYFI wall of fame'},
+    ], cumul:'Includes all previous rewards',
   },
 ];
 
-const MILESTONES = [0, 25, 50, 75, 100, 200];
-const MILESTONE_LABELS = ['Scout', '25', '50', '75', '100', '200'];
+const MILESTONES       = [0, 25, 50, 75, 100, 200];
+const MILESTONE_LABELS = ['0','25','50','75','100','200'];
 
-/* ═══════════════════════════════════════════════════════════════
-   MOCK BACKEND VALUE
-   In production: replace with an API call to your backend.
-   e.g. fetch('/api/ambassador/me').then(r=>r.json()).then(d=>init(d.registrations))
-═══════════════════════════════════════════════════════════════ */
-const MOCK_BACKEND_COUNT = 37; // ← simulates DB fetch
+/* ─────────────────────────────────────────────────────────────
+   BUILD 3-D COINS
+   Replicates ambassador.eyfichallenge.com exactly:
+   - Multiple OKLCH-coloured edge layers (translateZ steps) create
+     the cylindrical 3-D thickness.
+   - Front + back faces use the lime radial-gradient finish.
+   - animation-delay is driven by data-delay attribute.
+───────────────────────────────────────────────────────────────*/
+function buildCoins() {
+  document.querySelectorAll('.coin-wrap').forEach(wrap => {
+    const S      = parseInt(wrap.dataset.size);      // diameter px
+    const rx     = parseFloat(wrap.dataset.rx);
+    const ry     = parseFloat(wrap.dataset.ry);
+    const rz     = parseFloat(wrap.dataset.rz);
+    const delay  = parseFloat(wrap.dataset.delay || 0);
 
-/* ═══════════════════════════════════════════════════════════════
-   BUILD SLIDER MARKERS
-═══════════════════════════════════════════════════════════════ */
+    const numLayers  = Math.round(S / 5.5);          // e.g. 88px → 16 layers
+    const depth      = numLayers + 1;
+    const ringInset  = (S * 0.08).toFixed(1);
+    const fontSize   = Math.round(S * 0.55);
+
+    wrap.style.width            = S + 'px';
+    wrap.style.height           = S + 'px';
+    wrap.style.perspective      = (S * 6) + 'px';
+    wrap.style.animationDelay   = delay + 's';
+    wrap.style.transformStyle   = 'preserve-3d';
+
+    // Build OKLCH edge layers — lightness ramps from 0.42 → 0.60
+    let edgeHTML = '';
+    for (let i = 1; i <= numLayers; i++) {
+      const L = (0.42 + (0.18 * (i - 1) / Math.max(numLayers - 1, 1))).toFixed(4);
+      edgeHTML += `<div class="coin-edge" style="background:oklch(${L} 0.18 130);transform:translateZ(${-i}px)"></div>`;
+    }
+
+    wrap.innerHTML = `
+      <div style="width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg);position:relative">
+        ${edgeHTML}
+        <div class="coin-face" style="transform:translateZ(${-depth}px) rotateY(180deg)">
+          <div class="ring" style="inset:${ringInset}px"></div>
+        </div>
+        <div class="coin-face">
+          <div class="ring" style="inset:${ringInset}px"></div>
+          <span class="sym" style="font-size:${fontSize}px">₹</span>
+        </div>
+      </div>`;
+  });
+}
+buildCoins();
+
+/* ─────────────────────────────────────────────────────────────
+   BUILD SLIDER MILESTONE MARKERS
+───────────────────────────────────────────────────────────────*/
 const msRow    = document.getElementById('ms-row');
-const labRow   = document.getElementById('labels-row');
-const sliderEl = document.getElementById('main-slider');
+const msLabels = document.getElementById('ms-labels');
+const slider   = document.getElementById('sim-slider');
 
 MILESTONES.forEach((ms, i) => {
   const pct = (ms / 210) * 100;
 
-  // dot
   const dot = document.createElement('div');
-  dot.className = 'ms-dot';
-  dot.dataset.ms = ms;
-  dot.style.position = 'absolute';
-  dot.style.left = `calc(${pct}% - 7px)`;
-  dot.style.top = '50%';
-  dot.style.transform = 'translateY(-50%)';
-  dot.style.zIndex = '3';
+  dot.className = 'ms-dot'; dot.dataset.ms = ms;
+  dot.style.left = pct + '%';
   msRow.appendChild(dot);
 
-  // label
   const lbl = document.createElement('div');
-  lbl.className = 'ms-label';
-  lbl.dataset.ms = ms;
-  lbl.style.position = 'absolute';
-  lbl.style.left = `calc(${pct}%)`;
-  lbl.style.bottom = '0';
-  lbl.style.transform = 'translateX(-50%)';
+  lbl.className = 'ms-lbl'; lbl.dataset.ms = ms;
   lbl.textContent = MILESTONE_LABELS[i];
-  labRow.appendChild(lbl);
+  lbl.style.left = pct + '%';
+  msLabels.appendChild(lbl);
 });
 
-/* ═══════════════════════════════════════════════════════════════
-   BUILD TIER CARDS
-═══════════════════════════════════════════════════════════════ */
-const grid = document.getElementById('tier-grid');
+/* ─────────────────────────────────────────────────────────────
+   BUILD LADDER RUNGS
+───────────────────────────────────────────────────────────────*/
+const ladderEl = document.getElementById('ladder');
 
 TIERS.forEach(tier => {
-  const card = document.createElement('div');
-  card.className = 'tier-card locked';
-  card.id = 'card-' + tier.id;
-
-  // Apply CSS custom properties for per-tier color theming
-  card.style.setProperty('--tc-accent',     tier.accent);
-  card.style.setProperty('--tc-accent-dim', tier.accentDim);
-  card.style.setProperty('--tc-glow',       tier.glow);
-  card.style.setProperty('--tc-bg',         tier.bg);
-  card.style.setProperty('--tc-bg2',        tier.bg2);
-
-  // Build perks HTML
   const perksHTML = tier.perks.map(p => `
-    <div class="perk-row">
-      <div class="perk-check">${p.icon}</div>
+    <div class="perk">
+      <span class="perk-mark">✦</span>
       <div>
-        <div class="perk-text">${p.text}</div>
-        ${p.sub ? `<div class="perk-sub">${p.sub}</div>` : ''}
+        <div class="perk-name">${p.name}</div>
+        <div class="perk-sub">${p.sub}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 
-  const cumHTML = tier.cumulative ? `
-    <div class="cum-chip">
-      <span class="cum-icon">➕</span>
-      <span>${tier.cumulative}</span>
-    </div>
-  ` : '';
+  const cumHTML = tier.cumul
+    ? `<div class="card-cumul">${tier.cumul}</div>` : '';
 
-  card.innerHTML = `
-    <div class="card-header" style="background:${tier.bg}">
-      <div class="card-icon-row">
-        <div class="card-icon-circle">${tier.icon}</div>
-        <div class="card-tier-meta">
-          <div class="card-tier-num">✦ ${tier.milestone}</div>
-          <div class="card-tier-name">${tier.label}</div>
+  const nextN = tier.next === Infinity ? '∞' : tier.next;
+
+  const rung = document.createElement('div');
+  rung.className = 'rung locked';
+  rung.id = 'rung-' + tier.id;
+  rung.innerHTML = `
+    <div class="node" title="${tier.milestone}">${tier.icon}</div>
+    <div class="rung-card">
+      <div class="card-head">
+        <div>
+          <div class="card-milestone" id="ms-lbl-${tier.id}">${tier.milestone}</div>
+          <div class="card-title">${tier.label}</div>
+        </div>
+        <span class="card-badge badge-locked" id="badge-${tier.id}">Locked</span>
+      </div>
+      <div class="card-perks">${perksHTML}</div>
+      ${cumHTML}
+      <div class="card-prog">
+        <div class="prog-track">
+          <div class="prog-fill" id="prog-${tier.id}" style="width:0%"></div>
+        </div>
+        <div class="prog-meta">
+          <span id="prog-lbl-${tier.id}">0 / ${nextN} regs</span>
+          <span id="prog-pct-${tier.id}">0%</span>
         </div>
       </div>
-      <div class="card-progress">
-        <div class="card-progress-fill" id="prog-${tier.id}" style="width:0%"></div>
-      </div>
-      <div class="card-progress-lbl">
-        <span id="prog-lbl-${tier.id}">0 / ${tier.next === Infinity ? '∞' : tier.next} regs</span>
-        <span id="prog-pct-${tier.id}">0%</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="perks-list">${perksHTML}</div>
-    </div>
-    ${cumHTML}
-    <div class="card-footer">
-      <button class="card-cta" id="cta-${tier.id}" disabled>${tier.cta}</button>
-    </div>
-  `;
-
-  grid.appendChild(card);
+    </div>`;
+  ladderEl.appendChild(rung);
 });
 
-/* ═══════════════════════════════════════════════════════════════
-   STATE & HELPERS
-═══════════════════════════════════════════════════════════════ */
-let prevUnlocked = -1;
-let toastTimer   = null;
+/* ─────────────────────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────────────────────────*/
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
 function getUnlockedIdx(val) {
   let idx = -1;
@@ -869,235 +845,167 @@ function getUnlockedIdx(val) {
   return idx;
 }
 
-function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+/* Persistent style tag — no DOM churn on each slider move */
+const trackStyle = (() => {
+  const s = document.createElement('style');
+  document.head.appendChild(s);
+  return s;
+})();
 
-/* ═══════════════════════════════════════════════════════════════
-   UPDATE SLIDER TRACK (CSS gradient fill)
-   Uses a single pre-inserted <style> tag updated via a CSS custom
-   property — no DOM node churn on every input event.
-═══════════════════════════════════════════════════════════════ */
-// Insert a persistent style tag once at boot
-const trackStyle = document.createElement('style');
-trackStyle.id = 'dynamic-track';
-document.head.appendChild(trackStyle);
-
-function updateTrackFill(val) {
+/* ─────────────────────────────────────────────────────────────
+   UPDATE FUNCTIONS
+───────────────────────────────────────────────────────────────*/
+function updateTrack(val) {
   const pct = ((val / 210) * 100).toFixed(2);
   trackStyle.textContent = `
-    input#main-slider::-webkit-slider-runnable-track {
-      background: linear-gradient(90deg, var(--lime-dark) 0%, var(--lime) ${pct}%, var(--border2) ${pct}%);
+    input[type=range]#sim-slider::-webkit-slider-runnable-track {
+      background: linear-gradient(90deg, #A9D91A 0%, #C4F62E ${pct}%, #2A2A2A ${pct}%);
     }
-    input#main-slider::-moz-range-track {
-      background: linear-gradient(90deg, var(--lime-dark) 0%, var(--lime) ${pct}%, var(--border2) ${pct}%);
-    }
-  `;
+    input[type=range]#sim-slider::-moz-range-track {
+      background: linear-gradient(90deg, #A9D91A 0%, #C4F62E ${pct}%, #2A2A2A ${pct}%);
+    }`;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   UPDATE MILESTONE DOTS
-   Thumb turns lime whenever the slider is AT or PAST a milestone
-   (not only at the exact integer — previously only fired at exact vals).
-═══════════════════════════════════════════════════════════════ */
-function updateMilestoneDots(val) {
-  // Thumb becomes lime as soon as any milestone is unlocked
-  const anyUnlocked = val >= MILESTONES[1]; // first real milestone = 25
-  sliderEl.classList.toggle('at-milestone', anyUnlocked);
-
+function updateDots(val) {
+  const ui = getUnlockedIdx(val);
+  const curMin = ui >= 0 ? TIERS[ui].min : -1;
   document.querySelectorAll('.ms-dot').forEach(dot => {
     const ms = parseInt(dot.dataset.ms);
-    // 'reached' = passed it;  'active-ms' = sitting exactly on it
-    dot.classList.toggle('reached',   val > ms && ms > 0);
-    dot.classList.toggle('active-ms', val >= ms && ms > 0 && val < (MILESTONES[MILESTONES.indexOf(ms) + 1] ?? Infinity));
+    dot.classList.remove('hit','current');
+    if (ms === curMin && ms > 0)  dot.classList.add('current');
+    else if (ms > 0 && val > ms)  dot.classList.add('hit');
+    else if (ms > 0 && val >= ms) dot.classList.add('hit');
   });
-  document.querySelectorAll('.ms-label').forEach(lbl => {
+  document.querySelectorAll('.ms-lbl').forEach(lbl => {
     const ms = parseInt(lbl.dataset.ms);
-    lbl.classList.toggle('reached',   val > ms && ms > 0);
-    lbl.classList.toggle('active-ms', val >= ms && ms > 0 && val < (MILESTONES[MILESTONES.indexOf(ms) + 1] ?? Infinity));
+    lbl.classList.remove('hit','current');
+    if (ms === curMin && ms > 0) lbl.classList.add('current');
+    else if (ms > 0 && val > ms) lbl.classList.add('hit');
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   UPDATE TIER CARDS
-   Fixes:
-   - Completed tiers showed val/next instead of next/next
-   - Current tier at exact milestone showed 0% fill
-   - next-up card showed confusing duplicate in-progress fill
-   - Locked last-tier label showed '∞' as the target
-   - CTA showed static milestone, now shows delta
-═══════════════════════════════════════════════════════════════ */
-function updateCards(val) {
-  const unlocked = getUnlockedIdx(val);
+function updateLineFill(ui) {
+  const fill  = document.getElementById('line-fill');
+  const rungs = document.querySelectorAll('.rung');
+  if (!rungs.length || ui < 0) { fill.style.height = '0px'; return; }
+  const ladderRect = ladderEl.getBoundingClientRect();
+  const nodeEl     = rungs[ui] ? rungs[ui].querySelector('.node') : null;
+  if (!nodeEl) return;
+  const nodeRect   = nodeEl.getBoundingClientRect();
+  fill.style.height = Math.max(0, nodeRect.top + nodeRect.height / 2 - ladderRect.top) + 'px';
+}
 
+function updateCards(val) {
+  const ui = getUnlockedIdx(val);
   TIERS.forEach((tier, i) => {
-    const card    = document.getElementById('card-' + tier.id);
-    const progBar = document.getElementById('prog-' + tier.id);
+    const rung    = document.getElementById('rung-'     + tier.id);
+    const prog    = document.getElementById('prog-'     + tier.id);
     const progLbl = document.getElementById('prog-lbl-' + tier.id);
     const progPct = document.getElementById('prog-pct-' + tier.id);
-    const ctaBtn  = document.getElementById('cta-' + tier.id);
+    const badge   = document.getElementById('badge-'    + tier.id);
+    if (!rung) return;
 
-    card.classList.remove('locked','unlocked','current','next-up');
+    rung.classList.remove('locked','unlocked','current','next-up');
+    const nextN = tier.next === Infinity ? '∞' : tier.next;
 
-    if (i <= unlocked) {
-      /* ── UNLOCKED or CURRENT ───────────────────────────────────── */
-      const isCurrent = i === unlocked;
-      card.classList.add(isCurrent ? 'current' : 'unlocked');
+    if (i <= ui) {
+      const isCurrent = i === ui;
+      rung.classList.add(isCurrent ? 'current' : 'unlocked');
 
-      let fill, labelLeft, labelRight, ctaText;
-
+      let fill, left, right, bClass, bText;
       if (!isCurrent) {
-        // Fully completed tier: bar = 100%, label = tier.next / tier.next
-        fill       = 100;
-        labelLeft  = tier.next;
-        labelRight = tier.next;
-        ctaText    = '✅ Tier Achieved';
+        fill = 100; left = tier.next; right = tier.next;
+        bClass = 'badge-done'; bText = '✓ Done';
       } else if (tier.next === Infinity) {
-        // Max tier (Founding Team): bar = 100%
-        fill       = 100;
-        labelLeft  = val;
-        labelRight = '∞';
-        ctaText    = '👑 Legend Status Achieved!';
+        fill = 100; left = val; right = nextN;
+        bClass = 'badge-current'; bText = '👑 Legend';
       } else {
-        // Active current tier: progress from tier.min toward tier.next
-        // Add a 2% minimum fill so the bar is never invisible on entry
-        const raw  = (val - tier.min) / (tier.next - tier.min) * 100;
-        fill       = Math.max(2, Math.round(clamp(raw, 0, 100)));
-        labelLeft  = val;
-        labelRight = tier.next;
+        const raw = (val - tier.min) / (tier.next - tier.min) * 100;
+        fill  = Math.max(3, Math.round(clamp(raw, 0, 100)));
+        left  = val; right = nextN;
         const need = tier.next - val;
-        ctaText    = need <= 0 ? '✅ Tier Achieved' : `${need} more → ${tier.next} regs`;
+        bClass = 'badge-current';
+        bText  = need <= 0 ? '✓ Done' : 'Your Tier';
       }
 
-      progBar.style.width   = fill + '%';
-      progLbl.textContent   = `${labelLeft} / ${labelRight} regs`;
-      progPct.textContent   = fill + '%';
-      ctaBtn.disabled       = false;
-      ctaBtn.textContent    = ctaText;
+      prog.style.width    = fill + '%';
+      progLbl.textContent = `${left} / ${right} regs`;
+      progPct.textContent = fill + '%';
+      badge.className     = 'card-badge ' + bClass;
+      badge.textContent   = bText;
 
     } else {
-      /* ── LOCKED (not yet reached) ──────────────────────────────── */
-      // Only the immediately-next tier gets 'next-up' treatment
-      const isNextUp = i === unlocked + 1;
-      card.classList.add(isNextUp ? 'next-up' : 'locked');
+      const isNext = i === ui + 1;
+      rung.classList.add(isNext ? 'next-up' : 'locked');
 
-      if (isNextUp) {
-        // Show how many regs the user needs to unlock this tier
-        // Progress bar tracks progress from the previous tier toward this one
-        const prevMin  = TIERS[i - 1]?.min ?? 0;
-        const raw      = (val - prevMin) / (tier.min - prevMin) * 100;
-        const fill     = Math.round(clamp(raw, 0, 98)); // cap at 98 — never fully filled while locked
-        progBar.style.width  = fill + '%';
-        progLbl.textContent  = `${val} / ${tier.min} regs to unlock`;
-        progPct.textContent  = fill + '%';
-      } else {
-        // Fully locked tiers: bar empty, show milestone target
-        progBar.style.width  = '0%';
-        const target = tier.min;
-        progLbl.textContent  = `0 / ${target} regs to unlock`;
-        progPct.textContent  = '0%';
+      let fill = 0, left = 0;
+      if (isNext) {
+        const prevMin = TIERS[i - 1]?.min ?? 0;
+        fill = Math.round(clamp((val - prevMin) / (tier.min - prevMin) * 100, 0, 97));
+        left = val;
       }
 
-      ctaBtn.disabled    = true;
-      const need         = tier.min - val;
-      ctaBtn.textContent = need > 0 ? `🔒 Need ${need} more to unlock` : `🔒 Unlock at ${tier.min} regs`;
+      prog.style.width    = fill + '%';
+      progLbl.textContent = `${left} / ${tier.min} regs to unlock`;
+      progPct.textContent = fill + '%';
+      badge.className     = 'card-badge ' + (isNext ? 'badge-next' : 'badge-locked');
+      badge.textContent   = isNext ? `Need ${tier.min - val} more` : 'Locked';
     }
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   UPDATE LIVE LABELS
-═══════════════════════════════════════════════════════════════ */
-function updateLabels(val) {
-  document.getElementById('live-count').textContent = val;
-  document.getElementById('db-count').textContent   = val;
-
-  const unlocked = getUnlockedIdx(val);
-  const tag = document.getElementById('db-tier-tag');
-  if (unlocked < 0) {
-    tag.textContent = 'Not yet selected';
-    tag.style.color = 'var(--muted)';
-    tag.style.borderColor = 'var(--border2)';
-    tag.style.background  = 'rgba(255,255,255,.03)';
-  } else {
-    const t = TIERS[unlocked];
-    tag.textContent = `${t.label} ${t.icon}`;
-    tag.style.color = t.accent;
-    tag.style.borderColor = t.accentDim;
-    tag.style.background  = t.bg;
-  }
+function updateCountDisplay(val) {
+  const ui    = getUnlockedIdx(val);
+  const numEl = document.getElementById('count-num');
+  const tierEl= document.getElementById('count-tier');
+  numEl.textContent = val;
+  if (ui < 0) { tierEl.textContent = 'Not yet selected'; tierEl.style.color = 'var(--muted)'; }
+  else { tierEl.textContent = TIERS[ui].label + ' ' + TIERS[ui].icon; tierEl.style.color = 'var(--orange)'; }
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ─────────────────────────────────────────────────────────────
    TOAST
-═══════════════════════════════════════════════════════════════ */
-const toastEl   = document.getElementById('toast');
-const tEmojiEl  = document.getElementById('t-emoji');
-const tMainEl   = document.getElementById('t-main');
-
+───────────────────────────────────────────────────────────────*/
+const toastEl = document.getElementById('toast');
+let toastTimer = null;
 function showToast(tier) {
-  tEmojiEl.textContent = tier.icon;
-  tMainEl.textContent  = tier.label;
+  document.getElementById('t-icon').textContent = tier.icon;
+  document.getElementById('t-name').textContent = tier.label;
   toastEl.classList.add('show');
   if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400);
-  launchConfetti(tier.accent);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3200);
+  launchConfetti();
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   MASTER UPDATE
-═══════════════════════════════════════════════════════════════ */
-function update(val) {
-  const unlocked = getUnlockedIdx(val);
-  if (unlocked > prevUnlocked && unlocked >= 0) showToast(TIERS[unlocked]);
-  prevUnlocked = unlocked;
-
-  updateTrackFill(val);
-  updateMilestoneDots(val);
-  updateCards(val);
-  updateLabels(val);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SLIDER EVENT
-═══════════════════════════════════════════════════════════════ */
-sliderEl.addEventListener('input', () => update(parseInt(sliderEl.value, 10)));
-
-/* ═══════════════════════════════════════════════════════════════
-   CONFETTI
-═══════════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────
+   CONFETTI  (lime + orange palette only — stays on brand)
+───────────────────────────────────────────────────────────────*/
 const cvs = document.getElementById('confetti-canvas');
-const ctx  = cvs.getContext('2d');
-let particles = [];
-let raf = null;
-
+const ctx = cvs.getContext('2d');
+let particles = [], raf = null;
 function resizeCvs() { cvs.width = innerWidth; cvs.height = innerHeight; }
-addEventListener('resize', resizeCvs);
-resizeCvs();
+addEventListener('resize', resizeCvs); resizeCvs();
 
-function launchConfetti(color) {
-  const palette = [color, '#DFF864', '#FF6B1A', '#fff', '#FFD700'];
-  for (let i = 0; i < 120; i++) {
+function launchConfetti() {
+  const palette = ['#C4F62E','#A9D91A','#FF6B1A','#fff','#E8B923'];
+  for (let n = 0; n < 110; n++) {
     particles.push({
-      x: Math.random() * cvs.width, y: -12,
+      x: Math.random() * cvs.width, y: -10,
       r: Math.random() * 7 + 3,
-      color: palette[Math.floor(Math.random() * palette.length)],
-      tilt: 0, tiltAngle: 0,
-      tiltSpeed: Math.random() * .1 + .04,
+      c: palette[n % palette.length],
+      tilt:0, ta:0, ts: Math.random() * .09 + .04,
       vy: Math.random() * 3 + 2, vx: Math.random() * 4 - 2,
     });
   }
   if (!raf) drawConfetti();
 }
-
 function drawConfetti() {
   ctx.clearRect(0, 0, cvs.width, cvs.height);
   particles = particles.filter(p => p.y < cvs.height + 20);
   particles.forEach(p => {
-    p.tiltAngle += p.tiltSpeed;
-    p.y += p.vy; p.x += p.vx; p.vy += .06;
-    p.tilt = Math.sin(p.tiltAngle) * 12;
-    ctx.beginPath();
-    ctx.lineWidth = p.r;
-    ctx.strokeStyle = p.color;
+    p.ta += p.ts; p.y += p.vy; p.x += p.vx; p.vy += .05;
+    p.tilt = Math.sin(p.ta) * 11;
+    ctx.beginPath(); ctx.lineWidth = p.r; ctx.strokeStyle = p.c;
     ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
     ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
     ctx.stroke();
@@ -1106,39 +1014,85 @@ function drawConfetti() {
   if (!raf) ctx.clearRect(0, 0, cvs.width, cvs.height);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SCROLL-IN OBSERVER
-═══════════════════════════════════════════════════════════════ */
-// Store the global order of each card so stagger delay is consistent
-// regardless of how many cards enter the viewport in one batch.
-const allCards = Array.from(document.querySelectorAll('.tier-card'));
+/* ─────────────────────────────────────────────────────────────
+   MASTER UPDATE
+───────────────────────────────────────────────────────────────*/
+let prevUnlocked = -1;
+function update(val, skipToast) {
+  const ui = getUnlockedIdx(val);
+  if (!skipToast && ui > prevUnlocked && ui >= 0) showToast(TIERS[ui]);
+  prevUnlocked = ui;
+  updateTrack(val);
+  updateDots(val);
+  updateCards(val);
+  updateCountDisplay(val);
+  requestAnimationFrame(() => updateLineFill(ui));
+}
+slider.addEventListener('input', () => update(parseInt(slider.value, 10)));
 
-const obs = new IntersectionObserver(entries => {
+/* ─────────────────────────────────────────────────────────────
+   SCROLL-IN ANIMATION
+───────────────────────────────────────────────────────────────*/
+const allRungs = Array.from(document.querySelectorAll('.rung'));
+const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      // Use the card's position in the full list for the stagger delay
-      const globalIdx = allCards.indexOf(e.target);
-      setTimeout(() => {
-        e.target.classList.add('in-view');
-      }, globalIdx * 80);
-      obs.unobserve(e.target);
+      const idx = allRungs.indexOf(e.target);
+      setTimeout(() => e.target.classList.add('in'), idx * 70);
+      io.unobserve(e.target);
     }
   });
 }, { threshold: .1 });
-allCards.forEach(c => obs.observe(c));
+allRungs.forEach(r => io.observe(r));
 
-/* ═══════════════════════════════════════════════════════════════
-   BOOT — simulate backend fetch delay then apply stored count
-═══════════════════════════════════════════════════════════════ */
-// In a real implementation this would be:
-//   fetch('/api/ambassador/stats').then(r=>r.json()).then(d => boot(d.registrations))
-function boot(val) {
-  sliderEl.value = val;
-  update(val);
+/* ─────────────────────────────────────────────────────────────
+   BACKEND / DATABASE INTEGRATION GUIDE
+   ─────────────────────────────────────────────────────────────
+   This page currently uses MOCK_COUNT to simulate fetching the
+   ambassador's registration count from a database.
+
+   TO CONNECT A REAL DATABASE:
+   ─────────────────────────────
+   1. Delete the MOCK_COUNT constant.
+
+   2. Replace the setTimeout call with an async API fetch:
+
+      async function loadFromDB() {
+        try {
+          // Option A – REST API:
+          const res  = await fetch('/api/ambassador/me', {
+            headers: { Authorization: 'Bearer ' + getSessionToken() }
+          });
+          const data = await res.json();
+          boot(data.registration_count);   // field name from your DB schema
+
+          // Option B – Supabase:
+          // const { data, error } = await supabase
+          //   .from('ambassadors')
+          //   .select('registration_count')
+          //   .eq('user_id', currentUser.id)
+          //   .single();
+          // boot(data.registration_count);
+
+        } catch (err) {
+          console.error('[EYFI] Failed to load ambassador data:', err);
+          boot(0); // fallback gracefully
+        }
+      }
+      loadFromDB();
+
+   3. Update the backend-pill text in the HTML to "Live · Synced".
+   ──────────────────────────────────────────────────────────────
+*/
+const MOCK_COUNT = 37; // ← REPLACE: see guide above
+
+function boot(count) {
+  slider.value = count;
+  update(count, true); // true = suppress tier-unlock toast on page load
 }
 
-// Simulate a ~600ms "network" fetch before applying data
-setTimeout(() => boot(MOCK_BACKEND_COUNT), 600);
+// Simulates ~500ms DB network latency. Replace with loadFromDB() above.
+setTimeout(() => boot(MOCK_COUNT), 500);
 </script>
 </body>
 </html>
