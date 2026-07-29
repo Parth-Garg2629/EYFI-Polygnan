@@ -507,11 +507,17 @@ footer a { color: var(--orange); text-decoration: none; }
 /* ─────────────────────────────────────────────────────────────
    RESPONSIVE
 ───────────────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  .coin-wrap { opacity: 0.12 !important; }
+}
 @media (max-width: 560px) {
   .nav-links a:not(.nav-cta) { display: none; }
   .card-title { font-size: 1.1rem; }
   .count-num  { font-size: clamp(2.5rem, 10vw, 4rem); }
-  .hero-cta   { padding: 14px 32px; }
+  .hero-cta   { padding: 14px 32px; width: 100%; text-align: center; }
+  .stats-row  { flex-direction: column; gap: 24px; padding-top: 14px; border-top: none; }
+  .stat-cell:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border2); padding-bottom: 24px; }
+  .count-row  { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
   </style>
 </head>
